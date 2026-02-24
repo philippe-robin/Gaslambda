@@ -1,0 +1,126 @@
+[
+  {
+    "feature": "num_Cl",
+    "importance": 0.26
+  },
+  {
+    "feature": "halogen_fraction",
+    "importance": 0.2554
+  },
+  {
+    "feature": "T_power_0.7",
+    "importance": 0.1202
+  },
+  {
+    "feature": "T_over_MW",
+    "importance": 0.1036
+  },
+  {
+    "feature": "temperature_K",
+    "importance": 0.0449
+  },
+  {
+    "feature": "inv_sqrt_MW",
+    "importance": 0.0407
+  },
+  {
+    "feature": "temperature_reduced",
+    "importance": 0.0332
+  },
+  {
+    "feature": "num_C",
+    "importance": 0.0307
+  },
+  {
+    "feature": "BertzCT",
+    "importance": 0.0271
+  },
+  {
+    "feature": "molecular_weight",
+    "importance": 0.0098
+  },
+  {
+    "feature": "num_H",
+    "importance": 0.0072
+  },
+  {
+    "feature": "num_atoms_total",
+    "importance": 0.0069
+  },
+  {
+    "feature": "dof_total",
+    "importance": 0.0066
+  },
+  {
+    "feature": "num_triple_bonds",
+    "importance": 0.0063
+  },
+  {
+    "feature": "NumHAcceptors",
+    "importance": 0.0054
+  },
+  {
+    "feature": "MolLogP",
+    "importance": 0.0047
+  },
+  {
+    "feature": "Kappa3",
+    "importance": 0.0037
+  },
+  {
+    "feature": "num_bonds",
+    "importance": 0.0037
+  },
+  {
+    "feature": "TPSA",
+    "importance": 0.0036
+  },
+  {
+    "feature": "dof_vibrational",
+    "importance": 0.0034
+  },
+  {
+    "feature": "num_O",
+    "importance": 0.0028
+  },
+  {
+    "feature": "Chi0",
+    "importance": 0.0027
+  },
+  {
+    "feature": "num_rotatable_bonds",
+    "importance": 0.0024
+  },
+  {
+    "feature": "num_double_bonds",
+    "importance": 0.0023
+  },
+  {
+    "feature": "NumHDonors",
+    "importance": 0.0022
+  },
+  {
+    "feature": "num_N",
+    "importance": 0.0019
+  },
+  {
+    "feature": "Kappa2",
+    "importance": 0.0016
+  },
+  {
+    "feature": "MolMR",
+    "importance": 0.0013
+  },
+  {
+    "feature": "Kappa1",
+    "importance": 0.0012
+  },
+  {
+    "feature": "num_aromatic_rings",
+    "importance": 0.0012
+  },
+  {
+    "feature": "fraction_CSP3",
+    "importance": 0.001
+  }
+]
