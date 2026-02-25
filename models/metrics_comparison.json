@@ -1,0 +1,27 @@
+{
+  "GroupKFold": {
+    "MAE_W_mK": 0.001633,
+    "RMSE_W_mK": 0.00321,
+    "R2": 0.8568,
+    "MAPE_percent": 7.28,
+    "MdAPE_percent": 4.83,
+    "P90_error_percent": 18.2,
+    "Max_error_W_mK": 0.023522,
+    "Max_error_percent": 35.0,
+    "n_samples": 135,
+    "cv_method": "GroupKFold",
+    "n_unique_compounds": 90
+  },
+  "KFold": {
+    "MAE_W_mK": 0.001475,
+    "RMSE_W_mK": 0.002761,
+    "R2": 0.894,
+    "MAPE_percent": 6.66,
+    "MdAPE_percent": 5.17,
+    "P90_error_percent": 14.8,
+    "Max_error_W_mK": 0.020998,
+    "Max_error_percent": 31.2,
+    "n_samples": 135
+  },
+  "note": "GroupKFold groups by SMILES to avoid data leakage. KFold shown for comparison only."
+}

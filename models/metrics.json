@@ -1,9 +1,13 @@
 {
-  "MAE_W_mK": 0.001503,
-  "RMSE_W_mK": 0.002872,
-  "R2": 0.8854,
-  "MAPE_percent": 6.71,
-  "Max_error_W_mK": 0.021629,
-  "Max_error_percent": 32.2,
-  "n_samples": 135
+  "MAE_W_mK": 0.001633,
+  "RMSE_W_mK": 0.00321,
+  "R2": 0.8568,
+  "MAPE_percent": 7.28,
+  "MdAPE_percent": 4.83,
+  "P90_error_percent": 18.2,
+  "Max_error_W_mK": 0.023522,
+  "Max_error_percent": 35.0,
+  "n_samples": 135,
+  "cv_method": "GroupKFold",
+  "n_unique_compounds": 90
 }

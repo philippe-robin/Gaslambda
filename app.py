@@ -122,12 +122,15 @@ with st.sidebar:
     # Load and display metrics
     try:
         metrics = load_metrics()
-        st.markdown("### Model Performance (5-fold CV)")
+        cv_method = metrics.get("cv_method", "KFold")
+        st.markdown(f"### Model Performance ({cv_method})")
         st.metric("R²", f"{metrics['R2']:.4f}")
         st.metric("MAPE", f"{metrics['MAPE_percent']:.1f}%")
         st.metric("MAE", f"{metrics['MAE_W_mK']:.5f} W/(m·K)")
         st.metric("Training samples", metrics["n_samples"])
-    except:
+        if "MdAPE_percent" in metrics:
+            st.metric("Median APE", f"{metrics['MdAPE_percent']:.1f}%")
+    except (FileNotFoundError, KeyError, json.JSONDecodeError):
         st.warning("Model not trained yet. Run `python src/train.py` first.")
     
     st.markdown("---")
@@ -341,8 +344,8 @@ with tab2:
                                     name=smi,
                                     line=dict(width=2),
                                 ))
-                            except:
-                                st.warning(f"Could not process: {smi}")
+                            except (ValueError, KeyError) as e:
+                                st.warning(f"Could not process: {smi} — {e}")
                 
                 fig.update_layout(
                     title="Gas Thermal Conductivity vs Temperature",
@@ -469,9 +472,9 @@ with tab4:
                 showlegend=False,
             )
             st.plotly_chart(fig, use_container_width=True)
-        except:
+        except (FileNotFoundError, KeyError, json.JSONDecodeError):
             st.info("Train the model first to see feature importance.")
-    
+
     with col2:
         st.markdown("#### Cross-Validation: Predicted vs Actual")
         try:
@@ -510,20 +513,20 @@ with tab4:
             ))
             
             fig.update_layout(
-                title="Parity Plot (5-fold CV)",
+                title="Parity Plot (GroupKFold CV by compound)",
                 xaxis_title="Actual λ (mW/(m·K))",
                 yaxis_title="Predicted λ (mW/(m·K))",
                 template="plotly_white",
                 height=500,
             )
             st.plotly_chart(fig, use_container_width=True)
-        except:
+        except (FileNotFoundError, KeyError, pd.errors.EmptyDataError):
             st.info("Train the model first to see CV results.")
-    
+
     # Error distribution
     try:
         cv_df = pd.read_csv("models/cv_predictions.csv")
-        
+
         st.markdown("#### Error Distribution")
         fig = px.histogram(
             cv_df,
@@ -535,13 +538,13 @@ with tab4:
         )
         fig.update_layout(template="plotly_white", height=350)
         st.plotly_chart(fig, use_container_width=True)
-        
+
         # Worst predictions
         st.markdown("#### Compounds with Highest Errors")
         worst = cv_df.nlargest(10, "error_pct")[
-            ["name", "smiles", "temperature_K", "thermal_conductivity_W_mK", 
+            ["name", "smiles", "temperature_K", "thermal_conductivity_W_mK",
              "predicted_W_mK", "error_pct"]
         ]
         st.dataframe(worst, use_container_width=True, hide_index=True)
-    except:
-        pass
+    except (FileNotFoundError, KeyError, pd.errors.EmptyDataError):
+        st.info("Train the model first to see error distribution.")
