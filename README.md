@@ -2,6 +2,7 @@
 
 **QSPR/ML model for predicting gas-phase thermal conductivity (λ) of organic compounds from molecular structure.**
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://gaslambda.streamlit.app)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![RDKit](https://img.shields.io/badge/RDKit-2023.9+-green.svg)](https://www.rdkit.org/)
@@ -14,17 +15,20 @@ GasLambda predicts the thermal conductivity of organic gases at low pressure (�
 
 - **RDKit molecular descriptors** — physics-informed features (degrees of freedom, polarity, molecular shape, Eucken factor proxy)
 - **XGBoost gradient boosting** — robust ML for small datasets with built-in regularization
-- **Applicability domain check** — warns when predictions may be unreliable
+- **Applicability domain check** — 3-method detection (z-score, Williams plot, Mahalanobis distance)
 
-### Performance (5-fold cross-validation)
+### Performance (GroupKFold CV by compound)
 
 | Metric | Value |
 |--------|-------|
-| R² | 0.89 |
-| MAPE | 6.7% |
-| MAE | 0.0015 W/(m·K) |
+| R² | 0.857 |
+| MAPE | 7.3% |
+| MdAPE | 4.8% |
+| MAE | 0.0016 W/(m·K) |
 | Training compounds | 90 unique, 135 data points |
 | Temperature range | 250–600 K |
+
+> GroupKFold groups by SMILES to prevent data leakage — all temperatures of the same compound stay in the same fold. This gives honest generalization estimates for *unseen compounds*.
 
 ### Key features
 
@@ -32,7 +36,14 @@ GasLambda predicts the thermal conductivity of organic gases at low pressure (�
 - Interactive Streamlit web interface with Plotly visualizations
 - Parity plot, error distribution, and feature importance analysis
 - CSV export for all results
-- Applicability domain detection (z-score based)
+- Applicability domain detection (z-score + leverage + Mahalanobis)
+- Duan smearing correction for log-transform bias
+
+---
+
+## Live Demo
+
+👉 **[gaslambda.streamlit.app](https://gaslambda.streamlit.app)**
 
 ---
 
@@ -41,8 +52,8 @@ GasLambda predicts the thermal conductivity of organic gases at low pressure (�
 ### Installation
 
 ```bash
-git clone https://github.com/alysophil/gaslambda.git
-cd gaslambda
+git clone https://github.com/philippe-robin/Gaslambda.git
+cd Gaslambda
 
 # Create virtual environment (recommended)
 python -m venv venv
@@ -103,13 +114,16 @@ gaslambda/
 ├── src/
 │   ├── __init__.py
 │   ├── descriptors.py              # RDKit molecular descriptor computation
-│   ├── train.py                    # Model training pipeline
-│   └── predict.py                  # Prediction module + applicability domain
+│   ├── train.py                    # Model training pipeline (GroupKFold)
+│   └── predict.py                  # Prediction + applicability domain (3 methods)
 └── models/
     ├── xgb_thermal_conductivity.joblib
     ├── scaler.joblib
-    ├── metrics.json
+    ├── metrics.json                # GroupKFold metrics (primary)
+    ├── metrics_comparison.json     # GroupKFold vs KFold comparison
+    ├── training_stats.json         # Covariance, leverage, thresholds
     ├── feature_importance.json
+    ├── feature_names.json
     └── cv_predictions.csv
 ```
 
@@ -187,5 +201,5 @@ MIT License — see [LICENSE](LICENSE).
 
 ## Author
 
-**Alysophil SAS** — AI-driven flow chemistry  
+**Alysophil SAS** — AI-driven flow chemistry
 [www.alysophil.com](https://www.alysophil.com)
